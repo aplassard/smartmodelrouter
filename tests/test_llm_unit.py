@@ -25,6 +25,8 @@ def test_ensure_env_loads_dotenv(monkeypatch, tmp_path: Path) -> None:
 def test_chat_completion_parses_response(monkeypatch) -> None:
     """chat_completion returns the message and usage from the client."""
 
+    captured: dict | None = None
+
     class DummyClient:
         def __init__(self, *args, **kwargs):
             self.chat = self.Chat()
@@ -35,6 +37,9 @@ def test_chat_completion_parses_response(monkeypatch) -> None:
 
             class Completions:
                 def create(self, **kwargs):
+                    nonlocal captured
+                    captured = kwargs
+
                     class Msg:
                         content = "hi"
 
@@ -55,6 +60,9 @@ def test_chat_completion_parses_response(monkeypatch) -> None:
     assert result["message"] == "hi"
     assert result["usage"] == {"prompt_tokens": 1}
     assert "response" in result
+    assert captured is not None
+    assert captured["extra_headers"]["HTTP-Referer"] == "https://github.com/aplassard/smartmodelrouter"
+    assert captured["extra_headers"]["X-Title"] == "smartmodelrouter"
 
 
 def test_chat_completion_rejects_invalid_base_url(monkeypatch) -> None:
