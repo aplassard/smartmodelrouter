@@ -6,4 +6,18 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "openai>=1.107.2",
+    "python-dotenv>=1.0.1",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: tests that call external APIs",
+]
+pythonpath = [
+    "src",
 ]

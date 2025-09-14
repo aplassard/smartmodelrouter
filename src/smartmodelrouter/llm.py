@@ -118,8 +118,8 @@ def chat_completion(
                 temperature=temperature,
                 extra_body={"max_output_tokens": max_tokens},
                 extra_headers={
-                    "HTTP-Referer": "https://github.com/aplassard/driftwatch",
-                    "X-Title": "driftwatch",
+                    "HTTP-Referer": "https://github.com/aplassard/smartmodelrouter",
+                    "X-Title": "smartmodelrouter",
                 },
             )
             if not getattr(completion, "choices", None):
